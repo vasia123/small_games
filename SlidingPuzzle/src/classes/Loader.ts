@@ -8,7 +8,7 @@ export class Loader {
 
     public async load(): Promise<{puzzle: Texture}> {
         Assets.addBundle('puzzle', {
-            puzzle: '/public/images/puzzle.jpg',
+            puzzle: 'images/puzzle.jpg',
         });
 
         return Assets.loadBundle('puzzle', this.handleProgress.bind(this));
