@@ -15,8 +15,10 @@ export class Game {
     constructor() {
         this.app = new Application({
             view: document.getElementById("game") as HTMLCanvasElement,
-            width: 800, // Change this based on your preferences
-            height: 600, // Change this based on your preferences
+            width: 720, // Change this based on your preferences
+            height: 1280, // Change this based on your preferences
+            resizeTo: window,
+            autoDensity: true,
             backgroundColor: 0x1099bb,
         });
 
