@@ -5,7 +5,14 @@
 		},
 		{
 			"path": "SlidingPuzzle"
+		},
+		{
+			"path": "MiniRpg"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"editor.formatOnSave": true,
+		"prettier.configPath": "prettierrc.js",
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	}
 }

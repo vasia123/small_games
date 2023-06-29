@@ -1,5 +1,6 @@
 import { Assets } from 'pixi.js';
-import { IAssetsBundle } from '../types/IAssetsBundle';
+import { IAssetsBundle } from '../../interfaces/IAssetsBundle';
+import { GameAssets } from '../../constants/gameSettings';
 
 type ProgressCallback = (progress: number) => void;
 
@@ -8,11 +9,9 @@ export class Loader {
 
 
     public async load(): Promise<IAssetsBundle> {
-        Assets.addBundle('puzzle', {
-            puzzle: 'images/puzzle.jpg',
-        });
+        Assets.addBundle('main', GameAssets);
 
-        return Assets.loadBundle('puzzle', this.handleProgress.bind(this));
+        return Assets.loadBundle('main', this.handleProgress.bind(this));
     }
 
     public onProgress(callback: ProgressCallback): void {

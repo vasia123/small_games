@@ -1,25 +1,22 @@
 import { Container, Texture, Rectangle, Application } from 'pixi.js';
 import { Tile } from './Tile';
+import { IAssetsBundle } from '../types/IAssetsBundle';
 
 export class Board extends Container {
-    private tiles: {[key: number]: Tile} = {}; 
+    private tiles: { [key: number]: Tile } = {};
     public tilesIds: number[][] = [];
     private readonly rows: number = 3; // Change this based on your preference
     private readonly cols: number = 3; // Change this based on your preference
     public readonly tilesMargin: number = 5; // Margin between tiles
 
-    constructor(assets: {
-        puzzle: Texture;
-    }, app: Application) {
+    constructor(assets: IAssetsBundle, app: Application) {
         super();
         this.initializeTiles(assets);
         this.shuffleTiles();
         this.centerOnScreen(app);
     }
 
-    private initializeTiles(assets: {
-        puzzle: Texture;
-    }): void {
+    private initializeTiles(assets: IAssetsBundle): void {
         const puzzleTexture = assets.puzzle;
         const tileWidth = puzzleTexture.width / this.cols;
         const tileHeight = puzzleTexture.height / this.rows;
@@ -50,7 +47,7 @@ export class Board extends Container {
             }
         }
     }
-    
+
     private centerOnScreen(app: Application): void {
         const totalWidth = this.cols * (Tile.SIZE + this.tilesMargin) - this.tilesMargin;
         const totalHeight = this.rows * (Tile.SIZE + this.tilesMargin) - this.tilesMargin;
@@ -76,13 +73,13 @@ export class Board extends Container {
             (this.rows % 2 === 1 && inversions % 2 === 1) ||
             (this.rows % 2 === 0 && (inversions + blankRowFromBottom) % 2 === 0)
         );
-    
+
         for (let newRowIndex = 0; newRowIndex < this.tilesIds.length; newRowIndex++) {
             for (let newColIndex = 0; newColIndex < this.tilesIds[newRowIndex].length; newColIndex++) {
                 const id = flatGrid[newRowIndex * this.tilesIds.length + newColIndex];
                 this.tilesIds[newRowIndex][newColIndex] = id
                 const tile = this.tiles[id]
-    
+
                 if (tile) {
                     tile.row = newRowIndex;
                     tile.col = newColIndex;
@@ -104,8 +101,8 @@ export class Board extends Container {
         }
         return invCount;
     }
-    
-    
+
+
     public isSolved(): boolean {
         let expectedValue = 1;
         for (let row = 0; row < this.rows; row++) {
@@ -126,5 +123,5 @@ export class Board extends Container {
         }
         return true;
     }
-    
+
 }

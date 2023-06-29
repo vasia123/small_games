@@ -1,16 +1,15 @@
-import { Application, Texture } from 'pixi.js';
+import { Application } from 'pixi.js';
 import { Board } from './Board';
 import { Loader } from './Loader';
 import { ProgressBar } from './ProgressBar';
+import { IAssetsBundle } from '../types/IAssetsBundle';
 
 export class Game {
     private app: Application;
     private board!: Board;
     private loader!: Loader;
     private progressBar!: ProgressBar;
-    private assets!: {
-        puzzle: Texture;
-    };
+    private assets!: IAssetsBundle;
 
     constructor() {
         this.app = new Application({

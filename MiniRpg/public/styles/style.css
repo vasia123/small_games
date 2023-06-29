@@ -1,0 +1,31 @@
+#game {
+  /* Optional: Center the canvas on the screen */
+  /* position: absolute;
+  top: 50%;
+  left: 50%; */
+  transform-origin: center center;
+}
+
+/* Landscape */
+@media screen and (orientation: landscape) {
+  #game {
+    /* Reset any transformations */
+    transform: none;
+
+    /* Adjust the width and height for landscape */
+    /* width: 100vw;
+    height: 100vh; */
+  }
+}
+
+/* Portrait */
+@media screen and (orientation: portrait) {
+  #game {
+    /* Rotate the canvas by 90 degrees */
+    transform: rotate(90deg);
+
+    /* Swap width and height */
+    /* width: 100vh;
+    height: 100vw; */
+  }
+}
