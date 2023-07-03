@@ -1,25 +1,26 @@
 // src/classes/ui/HUD.ts
 
-import * as PIXI from 'pixi.js';
+import { Container, Text } from "pixi.js";
+
 
 export class HUD {
-    private container: PIXI.Container;
-    private healthText: PIXI.Text;
-    private xpText: PIXI.Text;
+    public container: Container;
+    private healthText: Text;
+    private xpText: Text;
     // private mapButton: PIXI.Sprite;
 
-    constructor(parentContainer: PIXI.Container) {
-        this.container = new PIXI.Container();
-        parentContainer.addChild(this.container);
+    constructor() {
+        this.container = new Container();
+        // parentContainer.addChild(this.container);
 
         // Health Text
-        this.healthText = new PIXI.Text('Health: 100', { fontFamily: 'Arial', fontSize: 24, fill: 0xffffff });
+        this.healthText = new Text('Health: 100', { fontFamily: 'Arial', fontSize: 24, fill: 0xffffff });
         this.healthText.x = 10;
         this.healthText.y = 10;
         this.container.addChild(this.healthText);
 
         // XP Text
-        this.xpText = new PIXI.Text('XP: 0', { fontFamily: 'Arial', fontSize: 24, fill: 0xffffff });
+        this.xpText = new Text('XP: 0', { fontFamily: 'Arial', fontSize: 24, fill: 0xffffff });
         this.xpText.x = 10;
         this.xpText.y = 40;
         this.container.addChild(this.xpText);

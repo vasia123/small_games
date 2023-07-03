@@ -1,16 +1,17 @@
+import { Sprite, Texture } from "pixi.js";
 import { IActor } from "../../interfaces/IActor";
-import * as PIXI from 'pixi.js';
 
 export abstract class Actor implements IActor {
-    x: number;
-    y: number;
+    // x: number;
+    // y: number;
     health!: number;
-    sprite: PIXI.Sprite;
+    sprite: Sprite;
 
-    constructor(x: number, y: number, texture: PIXI.Texture) {
-        this.x = x;
-        this.y = y;
-        this.sprite = new PIXI.Sprite(texture);
+    constructor(x: number, y: number, texture: string | Texture) {
+        // this.x = x;
+        // this.y = y;
+        this.sprite = Sprite.from(texture);
+        this.sprite.anchor.set(0.5, 1)
         this.sprite.x = x;
         this.sprite.y = y;
     }

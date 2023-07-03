@@ -1,31 +1,33 @@
-#game {
-  /* Optional: Center the canvas on the screen */
-  /* position: absolute;
-  top: 50%;
-  left: 50%; */
-  transform-origin: center center;
+body {
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  background: #000;
+}
+.container {
+  /* Flexbox used to center game */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
 }
 
+#game {
+  /* Optional: Center the canvas on the screen */
+  transform-origin: center center;
+}
 /* Landscape */
 @media screen and (orientation: landscape) {
   #game {
     /* Reset any transformations */
     transform: none;
-
-    /* Adjust the width and height for landscape */
-    /* width: 100vw;
-    height: 100vh; */
   }
 }
-
 /* Portrait */
 @media screen and (orientation: portrait) {
   #game {
     /* Rotate the canvas by 90 degrees */
     transform: rotate(90deg);
-
-    /* Swap width and height */
-    /* width: 100vh;
-    height: 100vw; */
   }
 }
