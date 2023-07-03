@@ -20,7 +20,7 @@ export class Location1 extends Container implements IScene {
     constructor() {
         super()
         // Load background based on level name
-        this.background = Sprite.from(assets.backgrounds.bg_1);
+        this.background = Sprite.from(assets.ui.bg_1);
         this.background.anchor.set(0.5);
         this.background.position.set(Manager.width / 2, Manager.height / 2)
 

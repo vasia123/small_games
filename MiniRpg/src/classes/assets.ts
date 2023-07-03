@@ -6,13 +6,22 @@ export const assets = {
         player_hand: 'images/player_2_hand.png',
         flashlight: 'images/flashlight.png',
     },
-    backgrounds: {
+    locations: {
+        intro: 'images/intro.jpg',
+    },
+    ui: {
         bg_1: 'images/background_1.jpeg',
         bg_2: 'images/background_2.jpeg',
         bg_3: 'images/background_3.jpeg',
         bg_4: 'images/background_4.jpeg',
         bg_5: 'images/background_5.jpeg',
-        dialog_box: 'images/dialog_box.png',
+        dialog_box_1: 'images/dialog_box_1.png',
+        dialog_box_2: 'images/dialog_box_2.png',
+        dialog_box_3: 'images/dialog_box_3.png',
+        button_1: 'images/button_1.png',
+        button_2: 'images/button_2.png',
+        button_3: 'images/button_3.png',
+        button_4: 'images/button_4.png',
     },
     rats: {
         rat_1: 'images/rat_1.png',
@@ -41,8 +50,8 @@ export const manifest: ResolverManifest = {
             assets: assets.rats
         },
         {
-            name: "backgrounds",
-            assets: assets.backgrounds
+            name: "ui",
+            assets: assets.ui
         },
         {
             name: "bats",

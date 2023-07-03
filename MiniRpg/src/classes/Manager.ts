@@ -1,4 +1,4 @@
-import { Application } from "pixi.js";
+import { Application, Ticker } from "pixi.js";
 import { IScene } from "../interfaces/IScene";
 
 export class Manager {
@@ -14,6 +14,9 @@ export class Manager {
     }
     public static get height(): number {
         return Manager._height;
+    }
+    public static get ticker(): Ticker {
+        return Manager.app.ticker;
     }
     public static get canvas(): HTMLCanvasElement {
         return document.getElementById("game") as HTMLCanvasElement;

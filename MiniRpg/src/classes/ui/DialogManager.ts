@@ -11,13 +11,15 @@ export class DialogManager {
 
     public showDialog(message: string, options: string[] = []): Promise<number> {
         return new Promise((resolve) => {
-            const dialogBox = new DialogBox(message, options, (optionIndex: number) => {
+            const dialogBox = new DialogBox(message, options, async (optionIndex: number) => {
+                await dialogBox.hide(20);
                 this.stage.removeChild(dialogBox);
                 resolve(optionIndex);
             });
 
             dialogBox.position.set((Manager.width - dialogBox.width) / 2, (Manager.height - dialogBox.height) / 2);
             this.stage.addChild(dialogBox);
+            dialogBox.show(20)
         });
     }
 }
