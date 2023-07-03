@@ -12,22 +12,17 @@ body {
   height: 100vh;
   overflow: hidden;
 }
-
+/* 
 #game {
-  /* Optional: Center the canvas on the screen */
   transform-origin: center center;
 }
-/* Landscape */
 @media screen and (orientation: landscape) {
   #game {
-    /* Reset any transformations */
     transform: none;
   }
 }
-/* Portrait */
 @media screen and (orientation: portrait) {
   #game {
-    /* Rotate the canvas by 90 degrees */
     transform: rotate(90deg);
   }
-}
+} */

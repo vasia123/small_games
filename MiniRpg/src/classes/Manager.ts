@@ -43,7 +43,9 @@ export class Manager {
 
         // call it manually once so we are sure we are the correct size after starting
         Manager.resize();
+
     }
+
     public static resize(): void {
         // current screen size
         const screenWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
