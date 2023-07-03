@@ -36,7 +36,7 @@ export class DialogBox extends Container {
 
         // Create text
         this.text = new Text(message, {
-            fontFamily: 'Roboto',
+            fontFamily: 'Roboto Regular',
             fontSize: textFontSize,
             fill: 0x000000,
             wordWrap: true,
@@ -56,7 +56,7 @@ export class DialogBox extends Container {
         // Calculate the widths of the options
         const optionWidths = options.map(option => {
             const tempText = new Text(option, {
-                fontFamily: 'Roboto',
+                fontFamily: 'Roboto Regular',
                 fontSize: optionFontSize,
                 padding: 10,
             });
@@ -73,7 +73,7 @@ export class DialogBox extends Container {
 
         options.forEach((option, index) => {
             const optionText = new Text(option, {
-                fontFamily: 'Roboto',
+                fontFamily: 'Roboto Regular',
                 fontSize: optionFontSize,
                 fill: 0xF2F6F9,
                 padding: 10,

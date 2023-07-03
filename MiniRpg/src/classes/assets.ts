@@ -9,6 +9,12 @@ export const assets = {
     locations: {
         intro: 'images/intro.jpg',
     },
+    fonts: {
+        Roboto: {
+            src: 'fonts/Roboto-Regular.ttf',
+            data: { family: 'Roboto Regular' },
+        }
+    },
     ui: {
         bg_1: 'images/background_1.jpeg',
         bg_2: 'images/background_2.jpeg',
@@ -48,6 +54,14 @@ export const manifest: ResolverManifest = {
         {
             name: "rats",
             assets: assets.rats
+        },
+        {
+            name: "locations",
+            assets: assets.locations
+        },
+        {
+            name: "fonts",
+            assets: assets.fonts
         },
         {
             name: "ui",
