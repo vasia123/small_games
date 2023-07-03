@@ -19,16 +19,15 @@ export class DialogBox extends Container {
 
         // Create the background of the dialog box
         this.background = new NineSlicePlane(Texture.from(assets.ui.dialog_box_3), leftWidth, topHeight, rightWidth, bottomHeight);
-        console.log('this.window.texture.width', this.background.texture.width)
         this.background.width = contentWidth
         this.addChild(this.background);
 
-        const leftPadding = leftWidth + 20, topPadding = topHeight + 10, bottomPadding = bottomHeight - 10
+        const leftPadding = leftWidth + 20, topPadding = topHeight + 10, bottomPadding = bottomHeight
         const contentAreaWidht = this.background.width - leftPadding * 2
         const optionFontSize = Manager.width * 0.02;
         const textFontSize = Manager.width * 0.025;
 
-        const buttonsMargin = 50; // Margin around buttons
+        const buttonsMargin = 10; // Margin around buttons
         const buttonsPadding = 30; // Padding around buttons
         const maxColumns = options.length > 1 ? 2 : 1; // Maximum columns allowed, 2 for multiple options, 1 for single
         let useTwoColumns = maxColumns === 2; // Start assuming two columns
@@ -50,7 +49,6 @@ export class DialogBox extends Container {
         });
         this.text.position.set(leftPadding, topPadding);
         this.addChild(this.text);
-        console.log('this.text.height', this.text.height)
 
 
         // Calculate the widths of the options
@@ -91,6 +89,7 @@ export class DialogBox extends Container {
             buttonBackground.height = optionText.height + buttonsPadding
 
             // Determine the column and row for this button
+            if ((index === options.length - 1) && ((index + 1) % 2 !== 0)) useTwoColumns = false // last element
             const column = useTwoColumns ? index % maxColumns : 0;
             const row = useTwoColumns ? Math.floor(index / maxColumns) : index;
 
@@ -98,7 +97,20 @@ export class DialogBox extends Container {
             const columnWidth = useTwoColumns ? contentAreaWidht / 2 : contentAreaWidht;
             const columnSpacing = useTwoColumns ? columnWidth : (this.background.width - buttonBackground.width) / 2;
             buttonBackground.x = this.background.x + leftPadding + column * columnSpacing + (columnWidth - buttonBackground.width) / 2;
-            buttonBackground.y = this.text.y + this.text.height + optionFontSize * 1.5 * (row + 1) + buttonsMargin * row; // Add padding between options
+
+            // Adjust Y position
+            if (useTwoColumns) {
+                buttonBackground.y = this.text.y + this.text.height + buttonsMargin * (row + 1);
+            } else {
+                buttonBackground.y = this.text.y + this.text.height + buttonsMargin * (row + 1);
+            }
+            // Add option height to totalOptionsHeight
+            if (column < 1) {
+                totalOptionsHeight += buttonBackground.height + buttonsMargin;
+            }
+            if (row > 0) {
+                buttonBackground.y += optionFontSize * row
+            }
 
             optionText.position.set(buttonBackground.x + buttonsPadding / 2, buttonBackground.y + buttonsPadding / 2);
 
@@ -109,24 +121,10 @@ export class DialogBox extends Container {
             this.addChild(buttonBackground);
             this.addChild(optionText);
 
-            // Add option height to totalOptionsHeight
-            totalOptionsHeight += buttonBackground.height + buttonsMargin;
         });
-        if (useTwoColumns) {
-            totalOptionsHeight /= 2
-        } else {
-            if (options.length > 1) totalOptionsHeight -= buttonsMargin
-        }
 
         // Adjust the height of the background
         this.background.height = this.text.height + totalOptionsHeight + topPadding + bottomPadding;
-        // this.background.height = Math.max(400, this.background.height);
-        // console.log('this.text.height', this.text.height, topHeight, bottomPadding)
-        // console.log('totalOptionsHeight', totalOptionsHeight)
-        // console.log('this.window.height', this.background.height)
-
-        // this.visible = false;
-        // this.alpha = 0;
     }
 
     show(duration: number = 500): Promise<void> {

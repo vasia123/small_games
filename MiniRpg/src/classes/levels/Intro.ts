@@ -44,7 +44,7 @@ export class Intro extends Container implements IScene {
             if (selectedOption === 0) {
                 this.tonnel_investigation()
             } else {
-                // TODO:
+                this.first_junction()
             }
         });
     }
@@ -59,7 +59,7 @@ export class Intro extends Container implements IScene {
             if (selectedOption === 0) {
                 this.take_crowbar()
             } else {
-                // TODO:
+                this.first_junction()
             }
         });
     }
@@ -70,17 +70,95 @@ export class Intro extends Container implements IScene {
                 "Идти дальше",
             ]
         ).then((_selectedOption) => {
-            // TODO:
+            this.first_junction()
         });
     }
     public first_junction(): void {
         this.dialogManager.showDialog(
-            "Ты наклоняешься и осторожно поднимаешь ломик. Он тяжелый, и ты можешь почувствовать холод металла даже через перчатки. Чутье подсказывает, что это инструмент стал свидетелем историй, которые могли бы заставить кровь стынуть в жилах. Похоже, этот туннель хранит свои тайны крепко, и стены здесь говорят на языке, которому следует прислушиваться очень внимательно.",
+            "Продолжая свой путь по темному туннелю, ты ощущаешь, как атмосфера вокруг становится всё более густой. Всё глуше доносится звук твоих шагов, словно стены всасывают в себя каждый звук.\n\nВнезапно, твой фонарик освещает перед тобой развилку - три туннеля, уходящих в разные стороны. Твоя душа наполняется как волнением, так и тревогой. Каждый из туннелей кажется приглашать в собственный мир тайн.",
+            [
+                "Осмотреть левый туннель",
+                "Осмотреть правый туннель",
+                "Осмотреть центральный туннель",
+            ]
+        ).then((selectedOption) => {
+            switch (selectedOption) {
+                case 0:
+                    this.left_tunnel()
+                    break;
+                case 1:
+                    this.center_tunnel()
+                    break;
+                case 2:
+                    this.right_tunnel()
+                    break;
+            }
+        });
+    }
+
+    public left_tunnel(): void {
+        this.dialogManager.showDialog(
+            "Левый туннель обвит корнями деревьев, которые, казалось бы, проникают из земли сверху. Стены в этом направлении усыпаны сверкающими геодами, которые мерцая, отражают свет твоего фонарика. Отсюда доносится аромат мха и земли, и ты почти можешь услышать шепот природы.",
             [
                 "Идти дальше",
+                "Повернуть назад",
             ]
-        ).then((_selectedOption) => {
-            // TODO:
+        ).then((selectedOption) => {
+            if (selectedOption === 0) {
+                // TODO:
+                this.to_be_continued()
+            } else {
+                this.first_junction()
+            }
+        });
+    }
+
+    public center_tunnel(): void {
+        this.dialogManager.showDialog(
+            "Центральный туннель кажется самым старым. Стены здесь выглядят изношенными, и пол устлан осколками кирпичей и камней. Тихое эхо голосов из прошлого, возможно, здесь ещё блуждает. Похоже, что этот туннель ведет к самому сердцу канализационной системы, где хранятся древние секреты города.",
+            [
+                "Идти дальше",
+                "Повернуть назад",
+            ]
+        ).then((selectedOption) => {
+            if (selectedOption === 0) {
+                // TODO:
+                this.to_be_continued()
+            } else {
+                this.first_junction()
+            }
+        });
+    }
+
+    public right_tunnel(): void {
+        this.dialogManager.showDialog(
+            "Правый туннель имеет гладкие стены, похоже, что он был высечен из твёрдой породы. Отсюда несёт прохладой, и ты слышишь звук текущей воды. Вдалеке, в глубине туннеля, мелькает отблеск чего-то металлического. Этот путь, возможно, ведет к подземному ручью или источнику.",
+            [
+                "Идти дальше",
+                "Повернуть назад",
+            ]
+        ).then((selectedOption) => {
+            if (selectedOption === 0) {
+                // TODO:
+                this.to_be_continued()
+            } else {
+                this.first_junction()
+            }
+        });
+    }
+
+    public to_be_continued(): void {
+        this.dialogManager.showDialog(
+            "Дальше пока ничего нет, но скоро будет.",
+            [
+                // "Идти дальше",
+            ]
+        ).then((selectedOption) => {
+            if (selectedOption === 0) {
+                // TODO:
+            } else {
+                this.first_junction()
+            }
         });
     }
 
