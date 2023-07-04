@@ -63,7 +63,7 @@ export class Intro extends Container implements IScene {
         if (background !== "") {
             await this.setBackground(background);
         }
-        await sleep(500);
+        await sleep(1000);
         this.dialogManager.showDialog(
             dialogs[name].message,
             Object.keys(dialogs[name].options)
