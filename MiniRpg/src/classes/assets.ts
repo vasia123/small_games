@@ -42,6 +42,9 @@ export const assets = {
         bat_4: 'images/bat_4.png',
         bat_5: 'images/bat_5.png',
         bat_6: 'images/bat_6.png',
+    },
+    sounds: {
+        witches: 'sounds/blud-i-vinishche.mp3'
     }
 }
 
@@ -70,6 +73,10 @@ export const manifest: ResolverManifest = {
         {
             name: "bats",
             assets: assets.bats
+        },
+        {
+            name: "sounds",
+            assets: assets.sounds
         },
     ]
 }

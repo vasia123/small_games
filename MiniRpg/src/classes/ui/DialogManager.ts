@@ -9,9 +9,9 @@ export class DialogManager {
         this.stage = stage;
     }
 
-    public showDialog(message: string, options: string[] = []): Promise<number> {
+    public showDialog(message: string, options: string[] = []): Promise<string> {
         return new Promise((resolve) => {
-            const dialogBox = new DialogBox(message, options, async (optionIndex: number) => {
+            const dialogBox = new DialogBox(message, options, async (optionIndex: string) => {
                 await dialogBox.hide(20);
                 this.stage.removeChild(dialogBox);
                 resolve(optionIndex);

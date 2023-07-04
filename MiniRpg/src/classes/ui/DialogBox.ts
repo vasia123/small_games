@@ -5,9 +5,9 @@ import { Manager } from "../Manager";
 export class DialogBox extends Container {
     private background: NineSlicePlane;
     private text: Text;
-    private onOptionSelected: (optionIndex: number) => void;
+    private onOptionSelected: (optionIndex: string) => void;
 
-    constructor(message: string, options: string[] = [], onOptionSelected: (optionIndex: number) => void) {
+    constructor(message: string, options: string[] = [], onOptionSelected: (optionIndex: string) => void) {
         super();
 
         this.onOptionSelected = onOptionSelected;
@@ -115,7 +115,7 @@ export class DialogBox extends Container {
             optionText.position.set(buttonBackground.x + buttonsPadding / 2, buttonBackground.y + buttonsPadding / 2);
 
             // Add interaction
-            optionText.on('pointerdown', () => this.onOptionSelected(index));
+            optionText.on('pointerdown', () => this.onOptionSelected(options[index]));
 
             // Add the button background and text to the dialog box
             this.addChild(buttonBackground);
