@@ -1,5 +1,7 @@
 import type { ResolverManifest } from "pixi.js";
 
+export type appSounds = keyof typeof assets['sounds']
+
 export const assets = {
     common: {
         player: 'images/player_2.png',
@@ -44,9 +46,12 @@ export const assets = {
         bat_6: 'images/bat_6.png',
     },
     sounds: {
+        main_theme: 'sounds/Darkness-Approaches_Looping.mp3',
+        battle_theme: 'sounds/Monsters-Underground.mp3',
         witches: 'sounds/blud-i-vinishche.mp3',
-        skvoz_grom: 'sounds/skvoz-grom.mp3',
-        nimbus_2000: 'sounds/nimbus-2000.mp3'
+        igra_na_vijivanie: 'sounds/kladbishe-serdec-igra-na-vijivanie.mp3',
+        nimbus_2000: 'sounds/nimbus-2000.mp3',
+        check: 'sounds/check.mp3',
     }
 }
 

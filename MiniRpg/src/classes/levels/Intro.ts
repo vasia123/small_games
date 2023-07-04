@@ -1,12 +1,11 @@
 import { Container, Sprite } from 'pixi.js';
 import { IScene } from '../../interfaces/IScene';
-// import { assets } from '../assets';
-// import { Manager } from '../Manager';
 import { DialogManager } from '../ui/DialogManager';
 import { Manager } from '../Manager';
-import { assets } from '../assets';
+import { appSounds, assets } from '../assets';
 import { validateOptions } from '../utils/checkDialogs';
 import { dialogs } from './texts';
+import { SoundManager } from '../utils/SoundManager';
 
 export class Intro extends Container implements IScene {
     private background!: Sprite;
@@ -25,10 +24,18 @@ export class Intro extends Container implements IScene {
         if (!valid) {
             throw new Error("Dialogs not valid!");
         }
-        this.gotoDialog('ep1')
+        this.gotoDialog('ep1', false)
+        SoundManager.playSound('main_theme', 0.25);
     }
 
-    public gotoDialog(name: string) {
+    public gotoDialog(name: string, playSound = true) {
+        if (playSound) {
+            let sound: appSounds = "check"
+            if (dialogs[name].sound) {
+                sound = dialogs[name].sound!
+            }
+            SoundManager.playSound(sound);
+        }
         this.dialogManager.showDialog(
             dialogs[name].message,
             Object.keys(dialogs[name].options)
