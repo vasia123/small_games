@@ -1,5 +1,23 @@
-import { Application, Ticker } from "pixi.js";
+import { Application, EventSystem, IPointData, Ticker, extensions } from "pixi.js";
 import { IScene } from "../interfaces/IScene";
+
+
+class CustomEventSystem extends EventSystem {
+    mapPositionToPoint(point: IPointData, x: number, y: number) {
+        const rect = this.domElement.getBoundingClientRect();
+        const resolutionMultiplier = 1.0 / this.resolution;
+
+        if (window.matchMedia("(orientation: portrait)").matches) {
+            // Adjust coordinates for portrait mode with rotated canvas (90 degrees)
+            point.x = ((rect.bottom - y) * ((this.domElement as any).width / rect.height)) * resolutionMultiplier;
+            point.y = ((x - rect.left) * ((this.domElement as any).height / rect.width)) * resolutionMultiplier;
+        } else {
+            // Default behavior for landscape mode
+            point.x = ((x - rect.left) * ((this.domElement as any).width / rect.width)) * resolutionMultiplier;
+            point.y = ((y - rect.top) * ((this.domElement as any).height / rect.height)) * resolutionMultiplier;
+        }
+    }
+}
 
 export class Manager {
 
@@ -26,6 +44,10 @@ export class Manager {
 
         Manager._width = width;
         Manager._height = height;
+
+
+        extensions.remove(EventSystem)
+        extensions.add(CustomEventSystem)
 
         Manager.app = new Application({
             view: Manager.canvas,
