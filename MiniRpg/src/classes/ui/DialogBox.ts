@@ -16,6 +16,10 @@ export class DialogBox extends Container {
         if (message.length > 300) {
             contentWidth = 1000
         }
+        let textFontSize = Manager.width * 0.025;
+        if (message.length > 600) {
+            textFontSize = Manager.width * 0.015
+        }
 
         // Create the background of the dialog box
         this.background = new NineSlicePlane(Texture.from(assets.ui.dialog_box_3), leftWidth, topHeight, rightWidth, bottomHeight);
@@ -25,7 +29,6 @@ export class DialogBox extends Container {
         const leftPadding = leftWidth + 20, topPadding = topHeight + 10, bottomPadding = bottomHeight
         const contentAreaWidht = this.background.width - leftPadding * 2
         const optionFontSize = Manager.width * 0.02;
-        const textFontSize = Manager.width * 0.025;
 
         const buttonsMargin = 10; // Margin around buttons
         const buttonsPadding = 30; // Padding around buttons

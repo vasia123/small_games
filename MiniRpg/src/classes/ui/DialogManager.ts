@@ -19,7 +19,7 @@ export class DialogManager {
 
             dialogBox.position.set((Manager.width - dialogBox.width) / 2, (Manager.height - dialogBox.height) / 2);
             this.stage.addChild(dialogBox);
-            dialogBox.show(20)
+            dialogBox.show(40)
         });
     }
 }

@@ -10,6 +10,15 @@ export const assets = {
     },
     locations: {
         intro: 'images/intro.jpg',
+        bg_1: 'images/background_1.jpeg',
+        bg_2: 'images/background_2.jpeg',
+        bg_3: 'images/background_3.jpeg',
+        bg_3_dark: 'images/background_3_dark.jpg',
+        bg_4: 'images/background_4.jpeg',
+        bg_5: 'images/background_5.jpeg',
+        crowbar: 'images/crowbar_bg.jpg',
+        crowbar_taken: 'images/crowbar_taken.jpg',
+        bg_cultists: 'images/background_cultists.jpg',
     },
     fonts: {
         Roboto: {
@@ -18,11 +27,6 @@ export const assets = {
         }
     },
     ui: {
-        bg_1: 'images/background_1.jpeg',
-        bg_2: 'images/background_2.jpeg',
-        bg_3: 'images/background_3.jpeg',
-        bg_4: 'images/background_4.jpeg',
-        bg_5: 'images/background_5.jpeg',
         dialog_box_1: 'images/dialog_box_1.png',
         dialog_box_2: 'images/dialog_box_2.png',
         dialog_box_3: 'images/dialog_box_3.png',
