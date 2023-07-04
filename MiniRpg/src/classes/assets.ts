@@ -44,7 +44,9 @@ export const assets = {
         bat_6: 'images/bat_6.png',
     },
     sounds: {
-        witches: 'sounds/blud-i-vinishche.mp3'
+        witches: 'sounds/blud-i-vinishche.mp3',
+        skvoz_grom: 'sounds/skvoz-grom.mp3',
+        nimbus_2000: 'sounds/nimbus-2000.mp3'
     }
 }
 
