@@ -8,9 +8,9 @@ class CustomEventSystem extends EventSystem {
         const resolutionMultiplier = 1.0 / this.resolution;
 
         if (window.matchMedia("(orientation: portrait)").matches) {
-            // Adjust coordinates for portrait mode with rotated canvas (90 degrees)
-            point.x = ((rect.bottom - y) * ((this.domElement as any).width / rect.height)) * resolutionMultiplier;
-            point.y = ((x - rect.left) * ((this.domElement as any).height / rect.width)) * resolutionMultiplier;
+            // Adjust coordinates for portrait mode with rotated canvas (-90 degrees or 270 degrees clockwise)
+            point.x = ((y - rect.top) * ((this.domElement as any).width / rect.height)) * resolutionMultiplier;
+            point.y = ((rect.right - x) * ((this.domElement as any).height / rect.width)) * resolutionMultiplier;
         } else {
             // Default behavior for landscape mode
             point.x = ((x - rect.left) * ((this.domElement as any).width / rect.width)) * resolutionMultiplier;

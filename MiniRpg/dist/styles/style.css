@@ -22,6 +22,6 @@ body {
 }
 @media screen and (orientation: portrait) {
   #game {
-    transform: rotate(-90deg);
+    transform: rotate(90deg);
   }
 }
