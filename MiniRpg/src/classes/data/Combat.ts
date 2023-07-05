@@ -3,7 +3,7 @@ import { Rat } from '../actors/Rat';
 import { HUD } from '../ui/HUD';
 import { Container, Sprite } from 'pixi.js';
 import { IScene } from '../../interfaces/IScene';
-import { assets } from '../assets';
+import { assets } from '../../constants/assets';
 import { Manager } from '../Manager';
 import { Enemy } from '../actors/Enemy';
 import { Flashlight } from '../actors/Flashlight';

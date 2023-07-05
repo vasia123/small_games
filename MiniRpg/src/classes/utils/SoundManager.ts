@@ -1,22 +1,45 @@
 // import { Loader } from "pixi.js";
-import { Sound } from "@pixi/sound";
-import { appSounds, assets } from "../assets";
+import { Sound, IMediaInstance } from "@pixi/sound";
+import { appSounds, assets } from "../../constants/assets";
+
+function isPromise(variable: any): variable is Promise<any> {
+    return variable instanceof Promise;
+}
 
 export class SoundManager {
     private static sounds: { [key: string]: Sound } = {};
+    private static cachedPlays: { [key: string]: IMediaInstance } = {};
+    private static fullDurations: { [key: string]: number } = {};
+    private static playedDurations: { [key: string]: number } = {};
 
     // Play a sound by name
-    public static playSound(name: appSounds, volume: number = 1, infinitely = false): void {
-        SoundManager.sounds[name] = Sound.from({
-            url: assets.sounds[name],
-            volume
-        });
-
-        SoundManager.sounds[name].play((sound: Sound) => {
-            if (infinitely && SoundManager.sounds[name]) {
+    public static async playSound(name: appSounds, volume: number = 1): Promise<void> {
+        if (!SoundManager.sounds.hasOwnProperty(name)) {
+            SoundManager.sounds[name] = Sound.from({
+                url: assets.sounds[name],
+            });
+        }
+        const play = SoundManager.sounds[name].play((sound) => {
+            if (name === "main_theme" && SoundManager.sounds[name]) {
                 sound.play()
             }
         })
+        if (isPromise(play)) {
+            const result = await play
+            if (result) {
+                result.on("progress", (progress, duration) => {
+                    if (!SoundManager.fullDurations.hasOwnProperty(name)) {
+                        SoundManager.fullDurations[name] = duration
+                    }
+                    SoundManager.playedDurations[name] = progress * duration
+                })
+            }
+            SoundManager.cachedPlays[name] = result
+        } else {
+            SoundManager.cachedPlays[name] = play
+        }
+        if (SoundManager.cachedPlays[name])
+            SoundManager.cachedPlays[name].volume = volume
     }
 
     // Stop a sound by name
@@ -39,6 +62,10 @@ export class SoundManager {
     }
     public static alreadyPlayed(name: appSounds): boolean {
         return !!SoundManager.sounds[name];
+    }
+
+    public static getDuration(name: appSounds): number {
+        return SoundManager.fullDurations[name] - (SoundManager.playedDurations[name] || 0);
     }
 }
 

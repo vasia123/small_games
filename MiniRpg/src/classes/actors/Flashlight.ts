@@ -1,6 +1,6 @@
 import { BlurFilter, Container, Graphics, Sprite } from "pixi.js";
 import { Manager } from "../Manager";
-import { assets } from "../assets";
+import { assets } from "../../constants/assets";
 
 export class Flashlight extends Container {
     public flashlightOverlay: Graphics;

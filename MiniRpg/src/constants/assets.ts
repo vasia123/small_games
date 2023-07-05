@@ -19,6 +19,16 @@ export const assets = {
         crowbar: 'images/crowbar_bg.jpg',
         crowbar_taken: 'images/crowbar_taken.jpg',
         bg_cultists: 'images/background_cultists.jpg',
+        bg_cultists_empty: 'images/background_cultists_empty.jpg',
+        bg_stalkers: 'images/background_stalkers.jpg',
+        bg_stalkers_empty: 'images/background_stalkers_empty_nofire.jpg',
+        bg_giant_rat: 'images/background_giant_rat.jpg',
+        bg_giant_rat_empty: 'images/background_giant_rat_empty.jpg',
+        bg_empty_tunnel: 'images/bg_empty_tunnel.jpg',
+        bg_crocodile: 'images/bg_crocodile.jpg',
+        bg_bats: 'images/bg_bats.jpg',
+        bg_harry: 'images/bg_harry.jpg',
+        bg_tunnel_web: 'images/bg_tunnel_web.jpg',
     },
     fonts: {
         Roboto: {
@@ -51,11 +61,12 @@ export const assets = {
     },
     sounds: {
         main_theme: 'sounds/Darkness-Approaches_Looping.mp3',
-        battle_theme: 'sounds/Monsters-Underground.mp3',
+        monsters: 'sounds/Monsters-Underground.mp3',
         witches: 'sounds/blud-i-vinishche.mp3',
         igra_na_vijivanie: 'sounds/kladbishe-serdec-igra-na-vijivanie.mp3',
         nimbus_2000: 'sounds/nimbus-2000.mp3',
         check: 'sounds/check.mp3',
+        battle: 'sounds/Theyre-Closing-In_Looping.mp3',
     }
 }
 

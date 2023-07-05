@@ -1,6 +1,6 @@
 
 export class Inventory {
-    public static items: string[]
+    public static items: string[] = []
 
     static addItem(item: string): void {
         Inventory.items.push(item)

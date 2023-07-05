@@ -1,5 +1,5 @@
 // import { Sprite } from "pixi.js";
-import { assets } from "../assets";
+import { assets } from "../../constants/assets";
 import { Actor } from "./Actor";
 
 export class Player extends Actor {
