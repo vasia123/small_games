@@ -4,10 +4,11 @@ import { DialogManager } from '../ui/DialogManager';
 import { Manager } from '../Manager';
 import { assets } from '../../constants/assets';
 import { validateOptions } from '../utils/checkDialogs';
-import { dialogs } from '../data/Texts';
+import { dialogs, startScene } from '../data/Texts';
 import { SoundManager } from '../utils/SoundManager';
 import sleep from '../utils/sleep';
 import { gsap } from "gsap";
+import { EndGameScene } from './EndGameScene';
 
 export class Locations extends Container implements IScene {
     private background?: Sprite;
@@ -22,7 +23,12 @@ export class Locations extends Container implements IScene {
         if (!valid) {
             throw new Error("Dialogs not valid!");
         }
-        this.gotoDialog('ep0');
+
+        if (import.meta.env.DEV) {
+            this.gotoDialog(startScene);
+        } else {
+            this.gotoDialog("ep0");
+        }
     }
 
     public async setBackground(background: keyof typeof assets.locations) {
@@ -62,6 +68,10 @@ export class Locations extends Container implements IScene {
     }
 
     public async gotoDialog(name: string) {
+        if (name === "game_end") {
+            Manager.changeScene(new EndGameScene());
+            return;
+        }
         this.currentLocation = name
         const guard = dialogs[name].guard;
         if (guard) {

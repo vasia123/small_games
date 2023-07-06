@@ -29,6 +29,12 @@ export const assets = {
         bg_bats: 'images/bg_bats.jpg',
         bg_harry: 'images/bg_harry.jpg',
         bg_tunnel_web: 'images/bg_tunnel_web.jpg',
+        bg_tunnel_start: 'images/bg_tunnel_start.jpg',
+        bg_tunnel_start_dark: 'images/bg_tunnel_start_dark.jpg',
+        bg_tunnel_1: 'images/bg_tunnel_1.jpg',
+        bg_tunnel_2: 'images/bg_tunnel_2.jpg',
+        bg_tunnel_4: 'images/bg_tunnel_4.jpg',
+        bg_homeless: 'images/bg_homeless.jpg',
     },
     fonts: {
         Roboto: {
