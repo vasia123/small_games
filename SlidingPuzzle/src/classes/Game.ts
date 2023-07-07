@@ -2,14 +2,13 @@ import { Application } from 'pixi.js';
 import { Board } from './Board';
 import { Loader } from './Loader';
 import { ProgressBar } from './ProgressBar';
-import { IAssetsBundle } from '../types/IAssetsBundle';
+import { WinScene } from './WIn';
 
 export class Game {
-    private app: Application;
+    public app: Application;
     private board!: Board;
     private loader!: Loader;
     private progressBar!: ProgressBar;
-    private assets!: IAssetsBundle;
 
     constructor() {
         this.app = new Application({
@@ -31,7 +30,7 @@ export class Game {
 
         this.loader = new Loader();
         this.loader.onProgress(this.onLoadProgress.bind(this));
-        this.assets = await this.loader.load();
+        await this.loader.load();
         this.onLoadComplete()
     }
 
@@ -43,10 +42,15 @@ export class Game {
         this.app.stage.removeChild(this.progressBar);
         this.initializeBoard();
         this.app.stage.addChild(this.board);
+        this.onWin()
+    }
+    public onWin(): void {
+        this.app.stage.removeChild(this.board);
+        this.app.stage.addChild(new WinScene(this));
     }
 
     private initializeBoard(): void {
-        this.board = new Board(this.assets, this.app);
+        this.board = new Board(this);
         this.app.stage.addChild(this.board);
     }
 }

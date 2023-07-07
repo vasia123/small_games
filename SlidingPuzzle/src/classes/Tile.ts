@@ -54,7 +54,7 @@ export class Tile extends Sprite {
     
                 // Check if the puzzle is solved after moving the tile
                 if (this.app.isSolved()) {
-                    alert("Puzzle Solved!");
+                    this.app.app.onWin()
                     // Implement additional logic upon solving the puzzle
                 }
                 return;

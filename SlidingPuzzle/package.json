@@ -16,6 +16,7 @@
     "@pixi/layers": "^2.0.1",
     "@pixi/lights": "^4.0.0",
     "@pixi/sound": "^5.2.0",
+    "firebase": "^10.0.0",
     "gsap": "^3.12.1",
     "pixi.js": "^7.2.4"
   }

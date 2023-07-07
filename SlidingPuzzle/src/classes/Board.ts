@@ -1,23 +1,26 @@
 import { Container, Texture, Rectangle, Application } from 'pixi.js';
 import { Tile } from './Tile';
-import { IAssetsBundle } from '../types/IAssetsBundle';
+import { Game } from './Game';
+import { assets } from '../assets';
 
 export class Board extends Container {
     private tiles: { [key: number]: Tile } = {};
+    public app!: Game
     public tilesIds: number[][] = [];
     private readonly rows: number = 3; // Change this based on your preference
     private readonly cols: number = 3; // Change this based on your preference
     public readonly tilesMargin: number = 5; // Margin between tiles
 
-    constructor(assets: IAssetsBundle, app: Application) {
+    constructor(app: Game) {
         super();
-        this.initializeTiles(assets);
+        this.initializeTiles();
         this.shuffleTiles();
-        this.centerOnScreen(app);
+        this.centerOnScreen(app.app);
+        this.app = app
     }
 
-    private initializeTiles(assets: IAssetsBundle): void {
-        const puzzleTexture = assets.puzzle;
+    private initializeTiles(): void {
+        const puzzleTexture = Texture.from(assets.common.puzzle);
         const tileWidth = puzzleTexture.width / this.cols;
         const tileHeight = puzzleTexture.height / this.rows;
 

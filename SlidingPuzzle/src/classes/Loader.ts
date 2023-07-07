@@ -1,5 +1,5 @@
 import { Assets } from 'pixi.js';
-import { IAssetsBundle } from '../types/IAssetsBundle';
+import { manifest } from '../assets';
 
 type ProgressCallback = (progress: number) => void;
 
@@ -7,12 +7,12 @@ export class Loader {
     private readonly onProgressCallbacks: ProgressCallback[] = [];
 
 
-    public async load(): Promise<IAssetsBundle> {
-        Assets.addBundle('puzzle', {
-            puzzle: 'images/puzzle.jpg',
-        });
+    public async load(): Promise<void> {
+        await Assets.init({ manifest: manifest });
 
-        return Assets.loadBundle('puzzle', this.handleProgress.bind(this));
+        const bundleIds = manifest.bundles.map(bundle => bundle.name);
+
+        await Assets.loadBundle(bundleIds, this.handleProgress.bind(this));
     }
 
     public onProgress(callback: ProgressCallback): void {
