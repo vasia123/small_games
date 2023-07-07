@@ -1,8 +1,12 @@
 import { Dialogs } from "../../interfaces/IDialog";
 // import { Inventory } from "../actors/Inventory";
+import { initializeApp } from 'firebase/app';
+import { getFirestore, collection, getDocs, query, where, updateDoc, doc, Firestore } from 'firebase/firestore/lite';
+import { SoundManager } from "../utils/SoundManager";
 
 
 export const startScene = "ep4"
+let firstTime = true
 
 export const dialogs: Dialogs = {
     "ep0": {
@@ -66,13 +70,60 @@ export const dialogs: Dialogs = {
             "Кетчуп": "ep6",
         }
     },
-
     "good_end": {
         location: "",
-        message: "Ты выиграл!",
+        message: "Ты нашёл подсказку!\n\n\n\nСледуй показаниям, чтобы продлжить историю.",
         options: {
+            "Послушать свидетеля": "witness_2",
+        },
+        guard: () => {
+            if (firstTime) {
+                firstTime = false
+                SoundManager.stopAll();
+                SoundManager.playSound("win");
 
-        }
+                const firebaseConfig = {
+                    apiKey: "AIzaSyD19hXl7T_hR22RKTbO0HRqzJLWB-dhnpw",
+                    authDomain: "small-games-dda7a.firebaseapp.com",
+                    projectId: "small-games-dda7a",
+                    storageBucket: "small-games-dda7a.appspot.com",
+                    messagingSenderId: "536294849994",
+                    appId: "1:536294849994:web:a7eaf666f68f46c537e333"
+                };
+
+                const app = initializeApp(firebaseConfig);
+
+                const db = getFirestore(app);
+                const currentGameOrder = 2
+
+                // Function to mark the current game as completed
+                async function markGameAsCompleted(db: Firestore) {
+                    try {
+                        // Reference to the games collection
+                        const gamesCol = collection(db, 'games');
+
+                        // Construct the query
+                        const q = query(gamesCol, where('sort_order', '==', currentGameOrder));
+
+                        // Execute the query
+                        const querySnapshot = await getDocs(q);
+
+                        // Loop through the documents (should only be one) and update it
+                        querySnapshot.forEach(docSnap => {
+                            const gameDoc = doc(db, 'games', docSnap.id);
+                            updateDoc(gameDoc, { is_completed: true });
+                        });
+
+                        console.log('Game marked as completed');
+                    } catch (error) {
+                        console.error('Error updating game data:', error);
+                    }
+                }
+
+                markGameAsCompleted(db)
+            }
+            return ""
+        },
     },
     "game_end": {
         location: "",
@@ -80,6 +131,11 @@ export const dialogs: Dialogs = {
         options: {
 
         }
+    },
+    "witness_2": {
+        location: "",
+        message: "",
+        options: {}
     }
 }
 

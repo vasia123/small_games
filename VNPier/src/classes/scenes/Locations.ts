@@ -72,6 +72,12 @@ export class Locations extends Container implements IScene {
             Manager.changeScene(new EndGameScene());
             return;
         }
+        if (name === "witness_2") {
+            SoundManager.stopAll();
+            SoundManager.playSound("witness_3");
+            this.gotoDialog("good_end");
+            return;
+        }
         this.currentLocation = name
         const guard = dialogs[name].guard;
         if (guard) {
