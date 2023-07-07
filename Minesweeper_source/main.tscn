@@ -1,0 +1,34 @@
+[gd_scene load_steps=8 format=3 uid="uid://yg6uc1mc8tsf"]
+
+[ext_resource type="Script" path="res://HexGridFill.gd" id="1_2j57p"]
+[ext_resource type="PackedScene" uid="uid://cl13ocbypcvue" path="res://GameOverScene.tscn" id="2_vs2si"]
+[ext_resource type="PackedScene" uid="uid://burhhd0y2hquv" path="res://YouWinScene.tscn" id="3_sro2m"]
+[ext_resource type="AudioStream" uid="uid://cjcqpkoqutu2p" path="res://assets/sounds/step.mp3" id="5_c6m5m"]
+[ext_resource type="AudioStream" uid="uid://b7y8a3vl548yl" path="res://assets/sounds/bomb.mp3" id="6_baku4"]
+[ext_resource type="AudioStream" uid="uid://c8s10fn22hklu" path="res://assets/sounds/stick.wav" id="6_socen"]
+[ext_resource type="AudioStream" uid="uid://deyn0poh8luky" path="res://assets/sounds/win.mp3" id="8_mksky"]
+
+[node name="Main" type="Node2D"]
+
+[node name="HexGrid" type="Node2D" parent="."]
+script = ExtResource("1_2j57p")
+
+[node name="GameOver" parent="." instance=ExtResource("2_vs2si")]
+visible = false
+
+[node name="YouWinScene" parent="." instance=ExtResource("3_sro2m")]
+visible = false
+
+[node name="ClickSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_c6m5m")
+
+[node name="FlagSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_socen")
+
+[node name="BombSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_baku4")
+volume_db = -12.0
+
+[node name="WinSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_mksky")
+volume_db = -12.0

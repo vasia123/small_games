@@ -1,0 +1,39 @@
+[gd_scene load_steps=4 format=3 uid="uid://burhhd0y2hquv"]
+
+[ext_resource type="Theme" uid="uid://dknsnl6jjjfyg" path="res://button_win.tres" id="1_tgv4a"]
+
+[sub_resource type="Theme" id="Theme_bduj5"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_0viks"]
+font_size = 60
+
+[node name="YouWinScene" type="Node2D"]
+
+[node name="Background" type="ColorRect" parent="."]
+offset_right = 813.0
+offset_bottom = 1445.0
+color = Color(0, 0, 0, 0.5)
+
+[node name="Panel" type="Panel" parent="."]
+offset_top = 243.0
+offset_right = 813.0
+offset_bottom = 747.0
+
+[node name="Label" type="Label" parent="Panel"]
+layout_mode = 0
+offset_top = 145.0
+offset_right = 813.0
+offset_bottom = 231.0
+theme = SubResource("Theme_bduj5")
+text = "ВЫ НАШЛИ ПОДСКАЗКУ!"
+label_settings = SubResource("LabelSettings_0viks")
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 318.0
+offset_top = 355.0
+offset_right = 505.0
+offset_bottom = 465.0
+theme = ExtResource("1_tgv4a")
+text = "открыть"

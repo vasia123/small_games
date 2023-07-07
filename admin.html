@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checking...</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+</head>
+<body>
+    <button onclick="resetAllProgress()">обнулить прогресс</button>
+    <button onclick="markNextGameAsCompleted()">пометить текущую пройденной</button>
+    <script>
+        const { createClient } = supabase
+        const supabaseClient = createClient('https://mjyfhdqsmwfvehhpbkjl.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1qeWZoZHFzbXdmdmVoaHBia2psIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODg3MTAwOTYsImV4cCI6MjAwNDI4NjA5Nn0.hj4hfCX0A2_oiXx4QCSAZGbM6XjCIFfAoyUvDzSdDxI')
+
+        const currentGameOrder = 0
+        let currentGame
+
+        async function getCurrentGame() {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('games')
+                    .select('*')
+                    .eq('order', currentGameOrder)
+                    .single();
+
+                if (error) {
+                    throw error;
+                }
+
+                return data
+            } catch (error) {
+                console.error('Error fetching game data:', error);
+            }
+        }
+        
+        // Function to check if the previous game is completed
+        async function isPreviousGameCompleted() {
+            if (currentGameOrder === 0) return true;
+            try {
+                const { data, error } = await supabaseClient
+                    .from('games')
+                    .select('is_completed')
+                    .eq('order', currentGameOrder - 1)
+                    .single();
+
+                if (error) {
+                    throw error;
+                }
+
+                return data ? data.is_completed : null;
+            } catch (error) {
+                console.error('Error fetching game data:', error);
+                return null;
+            }
+        }
+
+        // Function to mark the current game as completed
+        async function markGameAsCompleted() {
+            try {
+                const { error } = await supabaseClient
+                    .from('games')
+                    .update({ is_completed: true })
+                    .eq('order', currentGameOrder);
+
+                if (error) {
+                    throw error;
+                }
+
+                console.log('Game marked as completed');
+            } catch (error) {
+                console.error('Error updating game data:', error);
+            }
+        }
+
+        async function markNextGameAsCompleted() {
+            try {
+                // Get a list of all games sorted by order field
+                const { data, error } = await supabaseClient
+                    .from('games')
+                    .select('id, is_completed')
+                    .order('order', { ascending: true });
+
+                if (error) throw error;
+
+                // Find the first game that was not completed
+                const nextGame = data.find(game => game.is_completed === false);
+
+                // If such a game is found, mark it as completed
+                if (nextGame) {
+                    const { error: updateError } = await supabaseClient
+                        .from('games')
+                        .update({ is_completed: true })
+                        .eq('id', nextGame.id);
+
+                    if (updateError) throw updateError;
+
+                    console.log('Game marked as completed:', nextGame.id);
+                } else {
+                    console.log('No more games to complete.');
+                }
+            } catch (err) {
+                console.error('Error:', err);
+            }
+        }
+
+        // Function to reset all progress
+        async function resetAllProgress() {
+            console.log("resetAllProgress")
+            try {
+                const { error } = await supabaseClient
+                    .from('games')
+                    .update({ is_completed: false })
+                    .eq('is_completed', true);
+
+                if (error) {
+                    throw error;
+                }
+
+                console.log('All progress reset');
+            } catch (error) {
+                console.error('Error resetting progress:', error);
+            }
+        }
+        
+        getCurrentGame().then(game => {
+            currentGame = game
+            console.log('game', game)
+            if (currentGame.is_completed) {
+                console.log('Current game is completed');
+            } else {
+                // Check if the previous game (assuming current game order is 2) is completed
+                isPreviousGameCompleted().then(isCompleted => {
+                    if (isCompleted) {
+                        console.log('Previous game is completed');
+                    } else {
+                        console.log('Previous game is not completed');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

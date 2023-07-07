@@ -1,0 +1,77 @@
+[gd_scene load_steps=11 format=3 uid="uid://0mq17jw4htta"]
+
+[ext_resource type="Texture2D" uid="uid://du8l8viy2pa6g" path="res://assets/hex_empty.png" id="1_qxbpm"]
+[ext_resource type="Texture2D" uid="uid://8v3tdmlnbrrj" path="res://assets/hex_top.png" id="3_fd5ub"]
+[ext_resource type="Texture2D" uid="uid://4w7b2crub7fc" path="res://assets/hex_outline.png" id="4_pnb0w"]
+[ext_resource type="Texture2D" uid="uid://dtxmqfn5ytvlp" path="res://assets/explosion_small.png" id="4_seg1i"]
+[ext_resource type="FontFile" uid="uid://bbjdotc4mxtd8" path="res://assets/ClearSans-Bold.ttf" id="5_06bj8"]
+[ext_resource type="Texture2D" uid="uid://c8sh5lv7va0oo" path="res://assets/bomb.png" id="5_wagvk"]
+[ext_resource type="Script" path="res://HexCell.gd" id="6_xvbj1"]
+[ext_resource type="Texture2D" uid="uid://bwfkapnu1qxxn" path="res://assets/flag.png" id="8_fmxv7"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_mbev2"]
+font = ExtResource("5_06bj8")
+font_size = 54
+font_color = Color(0, 0, 1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_3w2vl"]
+font_color = Color(0, 0, 0, 1)
+
+[node name="HexCell" type="Node2D"]
+script = ExtResource("6_xvbj1")
+
+[node name="Empty" type="Sprite2D" parent="."]
+position = Vector2(58, 50)
+texture = ExtResource("1_qxbpm")
+
+[node name="Cover" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(58, 50)
+texture = ExtResource("3_fd5ub")
+
+[node name="Bomb" type="Sprite2D" parent="."]
+position = Vector2(58, 50)
+
+[node name="Exploded" type="Sprite2D" parent="Bomb"]
+visible = false
+texture = ExtResource("4_seg1i")
+
+[node name="NotExploded" type="Sprite2D" parent="Bomb"]
+position = Vector2(-3, -2)
+scale = Vector2(0.71, 0.71)
+texture = ExtResource("5_wagvk")
+
+[node name="Label" type="Label" parent="."]
+offset_right = 116.0
+offset_bottom = 100.0
+size_flags_vertical = 1
+text = "3"
+label_settings = SubResource("LabelSettings_mbev2")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Outline" type="Sprite2D" parent="."]
+position = Vector2(58, 50)
+texture = ExtResource("4_pnb0w")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+position = Vector2(-1, 1)
+polygon = PackedVector2Array(31, 1, 3, 49, 31, 97, 87, 97, 114, 49, 87, 1)
+
+[node name="Debug" type="Label" parent="."]
+visible = false
+offset_left = 27.0
+offset_top = -2.0
+offset_right = 67.0
+offset_bottom = 24.0
+text = "1.3"
+label_settings = SubResource("LabelSettings_3w2vl")
+
+[node name="Flag" type="Sprite2D" parent="."]
+position = Vector2(62.75, 50.3026)
+scale = Vector2(0.717105, 0.717105)
+texture = ExtResource("8_fmxv7")
+
+[connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]
