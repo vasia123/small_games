@@ -122,6 +122,57 @@
                 console.error('Error resetting progress:', error);
             }
         }
+
+                
+        async function isGateAlreadyUsed(gateName) {
+            try {
+                // Поиск игры с совпадением в столбце gate
+                const { data, error } = await supabase
+                    .from('games')
+                    .select('id, url')
+                    .eq('gate', gateName);
+
+                if (error) throw error;
+
+                if (data.length > 0) {
+                    console.log('Found matching game(s):', data);
+                    return true;
+                    location.href = data.url
+                } else {
+                    console.log('No matching game found.');
+                    return false;
+                }
+            } catch (err) {
+                console.error('Error:', err);
+                return false;
+            }
+        }
+
+        async function getFirstNotCompletedGame() {
+            try {
+                // Получить список всех игр, отсортированных по полю order
+                const { data, error } = await supabase
+                    .from('games')
+                    .select('id, is_completed')
+                    .order('order', { ascending: true });
+
+                if (error) throw error;
+
+                // Найти первую игру, которая не была завершена
+                const nextGame = data.find(game => game.is_completed === false);
+
+                if (nextGame) {
+                    console.log('First not completed game:', nextGame);
+                    return nextGame;
+                } else {
+                    console.log('No more games to complete.');
+                    return null;
+                }
+            } catch (err) {
+                console.error('Error:', err);
+                return null;
+            }
+        }
         
         getCurrentGame().then(game => {
             currentGame = game
