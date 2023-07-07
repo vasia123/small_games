@@ -19,10 +19,10 @@ export class SoundManager {
                 url: assets.sounds[name],
             });
         }
-        const play = SoundManager.sounds[name].play((_sound) => {
-            // if (name === "main_theme" && SoundManager.sounds[name]) {
-            //     sound.play()
-            // }
+        const play = SoundManager.sounds[name].play((sound) => {
+            if (name === "main_theme" && SoundManager.sounds[name]) {
+                sound.play()
+            }
         })
         if (isPromise(play)) {
             const result = await play

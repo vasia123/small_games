@@ -8,6 +8,8 @@ export const assets = {
     },
     sounds: {
         witness_4: 'sounds/witness_4.wav',
+        main_theme: 'sounds/main_theme.mp3',
+        click: 'sounds/click.mp3',
     }
 }
 

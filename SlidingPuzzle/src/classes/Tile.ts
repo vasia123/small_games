@@ -1,6 +1,7 @@
 import { Sprite, Texture, Text } from 'pixi.js';
 import type { Board } from './Board';
 import { AnimationManager } from './AnimationManager';
+import { SoundManager } from './SoundManager';
 
 export class Tile extends Sprite {
     public static readonly SIZE = 100; // Change this based on your tile size
@@ -27,6 +28,7 @@ export class Tile extends Sprite {
         this.addChild(label);
     }
     private async onTileClick(): Promise<void> {
+        SoundManager.playSound("click")
         const row = this.row
         const col = this.col
         // Check if the clicked tile is adjacent to the empty spot
@@ -36,7 +38,7 @@ export class Tile extends Sprite {
             { dr: 0, dc: -1 },
             { dr: 0, dc: 1 }
         ];
-    
+
         for (const { dr, dc } of adjacentOffsets) {
             const newRow = row + dr;
             const newCol = col + dc;
@@ -46,12 +48,12 @@ export class Tile extends Sprite {
                 this.app.tilesIds[row][col] = 0;
                 this.row = newRow
                 this.col = newCol
-    
+
                 // Animate tile to new position
                 const targetX = newCol * (Tile.SIZE + this.app.tilesMargin);
                 const targetY = newRow * (Tile.SIZE + this.app.tilesMargin);
                 await AnimationManager.slideTo(this, targetX, targetY);
-    
+
                 // Check if the puzzle is solved after moving the tile
                 if (this.app.isSolved()) {
                     this.app.app.onWin()

@@ -3,6 +3,7 @@ import { Board } from './Board';
 import { Loader } from './Loader';
 import { ProgressBar } from './ProgressBar';
 import { WinScene } from './WIn';
+import { SoundManager } from './SoundManager';
 
 export class Game {
     public app: Application;
@@ -42,7 +43,8 @@ export class Game {
         this.app.stage.removeChild(this.progressBar);
         this.initializeBoard();
         this.app.stage.addChild(this.board);
-        this.onWin()
+        SoundManager.playSound("main_theme")
+        // this.onWin()
     }
     public onWin(): void {
         this.app.stage.removeChild(this.board);
