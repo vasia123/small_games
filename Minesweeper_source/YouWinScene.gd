@@ -5,27 +5,42 @@ extends Node2D
 
 func _ready():
 	var jsCode = """
-		const { createClient } = supabase
-		const supabaseClient = createClient('https://mjyfhdqsmwfvehhpbkjl.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1qeWZoZHFzbXdmdmVoaHBia2psIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODg3MTAwOTYsImV4cCI6MjAwNDI4NjA5Nn0.hj4hfCX0A2_oiXx4QCSAZGbM6XjCIFfAoyUvDzSdDxI')
-		
+		const firebaseConfig = {
+			apiKey: "AIzaSyD19hXl7T_hR22RKTbO0HRqzJLWB-dhnpw",
+			authDomain: "small-games-dda7a.firebaseapp.com",
+			projectId: "small-games-dda7a",
+			storageBucket: "small-games-dda7a.appspot.com",
+			messagingSenderId: "536294849994",
+			appId: "1:536294849994:web:a7eaf666f68f46c537e333"
+		};
+
+		if (!firebase.apps.length) {
+			firebase.initializeApp(firebaseConfig);
+		}
+
+		const db = firebase.firestore();
 		const currentGameOrder = 0
 	
-		// Function to mark the current game as completed
 		async function markGameAsCompleted() {
 			try {
-				const { error } = await supabaseClient
-					.from('games')
-					.update({ is_completed: true })
-					.eq('order', currentGameOrder);
-
-				if (error) {
-					throw error;
-				}
+				
+				// Reference to the games collection
+				const gamesRef = db.collection('games');
+				
+				// Query for the game with the matching order
+				const querySnapshot = await gamesRef.where('sort_order', '==', currentGameOrder).get();
+				
+				// Loop through the documents (should only be one) and update it
+				querySnapshot.forEach(doc => {
+					doc.ref.update({ is_completed: true });
+				});
+				
 				console.log('Game marked as completed');
 			} catch (error) {
 				console.error('Error updating game data:', error);
 			}
 		}
+
 		markGameAsCompleted()
 	"""
 	JavaScriptBridge.eval(jsCode,true)
