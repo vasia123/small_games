@@ -47,6 +47,8 @@ export class Game {
         // this.onWin()
     }
     public onWin(): void {
+        SoundManager.stopAll()
+        SoundManager.playSound("win")
         this.app.stage.removeChild(this.board);
         this.app.stage.addChild(new WinScene(this));
     }
