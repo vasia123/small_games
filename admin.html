@@ -126,18 +126,14 @@
         getCurrentGame().then(game => {
             currentGame = game
             console.log('game', game)
-            if (currentGame.is_completed) {
-                console.log('Current game is completed');
-            } else {
-                // Check if the previous game (assuming current game order is 2) is completed
-                isPreviousGameCompleted().then(isCompleted => {
-                    if (isCompleted) {
-                        console.log('Previous game is completed');
-                    } else {
-                        console.log('Previous game is not completed');
-                    }
-                });
-            }
+            // Check if the previous game (assuming current game order is 2) is completed
+            isPreviousGameCompleted().then(isCompleted => {
+                if (isCompleted) {
+                    console.log('Previous game is completed');
+                } else {
+                    console.log('Previous game is not completed');
+                }
+            });
         });
     </script>
 </body>
