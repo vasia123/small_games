@@ -18,7 +18,7 @@ export const assets = {
         main_theme: 'sounds/main_theme.mp3',
         check: 'sounds/check.mp3',
         win: 'sounds/win.mp3',
-        witness_3: 'sounds/witness_3.mp3',
+        witness_3: 'sounds/witness_3.wav',
     }
 }
 
