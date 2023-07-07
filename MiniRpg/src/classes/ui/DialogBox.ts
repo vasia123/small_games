@@ -1,5 +1,4 @@
 import { Text, Container, Graphics } from "pixi.js";
-// import { assets } from "../assets";
 import { Manager } from "../Manager";
 
 export class DialogBox extends Container {
@@ -95,7 +94,6 @@ export class DialogBox extends Container {
                 dropShadowAngle: Math.PI / 6,
                 dropShadowDistance: 2,
             });
-            optionText.interactive = true;
 
             // Add background and rounded corners to make it look like a button
             // const buttonBackground = new NineSlicePlane(Texture.from(assets.ui.button_4), 15, 15, 15, 15);
@@ -108,6 +106,7 @@ export class DialogBox extends Container {
             buttonBackground.beginFill(0x465464, 0.8);
             buttonBackground.drawRoundedRect(0, 0, buttonWidth, buttonHeight, 5);
             buttonBackground.endFill();
+            buttonBackground.interactive = true;
 
 
             // Determine the column and row for this button
@@ -137,7 +136,7 @@ export class DialogBox extends Container {
             optionText.position.set(buttonBackground.x + buttonsPaddingX, buttonBackground.y + buttonsPaddingY);
 
             // Add interaction
-            optionText.on('pointerdown', () => this.onOptionSelected(options[index]));
+            buttonBackground.on('pointerdown', () => this.onOptionSelected(options[index]));
 
             // Add the button background and text to the dialog box
             this.addChild(buttonBackground);

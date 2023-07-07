@@ -73,6 +73,8 @@ export const assets = {
         nimbus_2000: 'sounds/nimbus-2000.mp3',
         check: 'sounds/check.mp3',
         battle: 'sounds/Theyre-Closing-In_Looping.mp3',
+        witness_2: 'sounds/witness_2.wav',
+        win: 'sounds/win.mp3',
     }
 }
 

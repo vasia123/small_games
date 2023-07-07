@@ -1,9 +1,13 @@
 import { Dialogs } from "../../interfaces/IDialog";
 import { Inventory } from "../actors/Inventory";
+import { SoundManager } from "../utils/SoundManager";
 import { waitTillMusicEnds } from "../utils/waitTillMusic";
+import { initializeApp } from 'firebase/app';
+import { getFirestore, collection, getDocs, query, where, updateDoc, doc, Firestore } from 'firebase/firestore/lite';
 
+export const startScene = "homeless_talk"
 
-export const startScene = "third_junction"
+let firstTime = true
 
 export const dialogs: Dialogs = {
     "ep0": {
@@ -147,7 +151,9 @@ export const dialogs: Dialogs = {
     "location_cultists_music_hear": {
         location: "",
         message: "Это донельзя странная песня привлекает твоё внимание. Ты прислоняешься к холодной каменной стене и затаиваешь дыхание, пока пристально наблюдаешь за их танцами и слушаешь эту странную музыку.\n\nПо мере того как песня развивается, ты замечаешь, что звуки становятся гармоничными, словно они олицетворяют древний язык, который невозможно понять, но можно почувствовать. Звуки флейт смешиваются с волынкой и чем-то еще, что ты не можешь определить. Это звучит одновременно прекрасно и завораживающе.\n\nТвои чувства обостряются. Запахи земли, мха и влажного камня окутывают тебя. Стены кажутся живыми, как будто дыхание пещеры находится в ритме с музыкой. Ощущение магии и таинства наполняет воздух...",
-        options: {},
+        options: {
+            "Уйти": "first_junction",
+        },
         guard: (location) => {
             waitTillMusicEnds(location, "witches", "location_cultists_music_hear", "location_cultists_dance_end")
             return ""
@@ -198,7 +204,9 @@ export const dialogs: Dialogs = {
     "location_cultists_dance": {
         location: "",
         message: "Ты решаешь присоединиться к танцу сектантов. Так как ты двигаешься в ритме музыки, они смотрят на тебя с одобрением. Лидер, с длинной бородой и в балахоне, проносясь мимо тебя в танце произносит:\n\n- Ты принимаешь нашу энергию, путник. Мы приветствуем тебя.\n\nВдруг, ты чувствуешь, что твои движения становятся легкими и бесшумными...",
-        options: {},
+        options: {
+            "Уйти": "first_junction",
+        },
         guard: (location) => {
             waitTillMusicEnds(location, "witches", "location_cultists_dance", "location_cultists_dance_end")
             return ""
@@ -302,7 +310,9 @@ export const dialogs: Dialogs = {
     "stalkers_camp_silent_start": {
         location: "",
         message: "Ты решаешь не позориться и просто слушать. Голоса сталкеров нежные, но полные силы, их песня имеет грустную мелодию, но в ней чувствуется надежда.\n\nСлова песни касаются твоей души, и ты чувствуешь, как глаза становятся влажными. Один из сталкеров, заметив, что ты слушаешь, улыбается тебе.",
-        options: {},
+        options: {
+            "Уйти": "second_junction",
+        },
         guard: (location) => {
             waitTillMusicEnds(location, "igra_na_vijivanie", "stalkers_camp_silent_start", "stalkers_camp_song_end")
             return ""
@@ -311,7 +321,9 @@ export const dialogs: Dialogs = {
     "stalkers_camp_sing_start": {
         location: "",
         message: "Хотя ты не знаешь слов песни, мелодия кажется знакомой, и ты начинаешь подпевать. Сталкеры удивляются, но затем даже подстраиваются под тебя. Вы поёте вместе, голоса сливаются в прекрасную гармонию...",
-        options: {},
+        options: {
+            "Уйти": "second_junction",
+        },
         guard: (location) => {
             waitTillMusicEnds(location, "igra_na_vijivanie", "stalkers_camp_sing_start", "stalkers_camp_song_end")
             return ""
@@ -356,43 +368,34 @@ export const dialogs: Dialogs = {
 
     "homeless": {
         location: "bg_homeless",
-        message: "Когда ты входишь в правый туннель, твой фонарик освещает длинный коридор с несколькими нишами по бокам. Поначалу ты ничего необычного не замечаешь, но вскоре улавливаешь слабые запахи еды и затхлой одежды.\n\nТы движешься дальше и видишь, что туннель является убежищем для кучки бездомных людей. Некоторые из бездомных сидят или лежат в своих уголках, другие тихо разговаривают между собой.\n\nТвоё появление с фонарем привлекает их внимание.",
+        message: "Правый тоннель казался самым светлым. Пройдя еще несколько метров вперед, вы стали замечать, как в закутке еле заметные тени танцевали на сырых, покрытых плесенью, стенах.\n\nИ вот уже твой путь был перекрыт сворой бродяг, которые, по всей видимости, превратили эту часть канализации в свой дом.\n\nПоявление незнакомца заставило их насторожиться.",
         options: {
-            "Завести разговор": "homeless_talk_bad",
-            "Попытаться пройти мимо": "homeless_walk_bad",
+            "Завести разговор": "homeless_talk",
+            "Попытаться пройти мимо": "homeless_walk",
             "Уйти": "third_junction",
         }
     },
-    "homeless_talk_bad": {
+    "homeless_talk": {
         location: "bg_homeless",
-        message: "Ты пытаешься заговорить с бездомными, но они смотрят на тебя с подозрением и недоверием.\n\nОдин из бездомных, мужчина с густой бородой и грязным плащом, встаёт и подходит к тебе. Его глаза строго смотрят на тебя, и он говорит глухим голосом: «Что тебе здесь надо? Это наш дом, таким как ты здесь не место.",
+        message: "Без лишних действий и не наводя паники, вы выделили из толпы мужчину старших лет, который походил на лидера, и обратились напрямую к нему.\n\nОн критически осматривает тебя, пока ты объясняешь, что занимаешься расследованием и нуждается в информации.\n\nКогда ты объясняешь лидеру бездомных свою миссию, его серьезный взгляд постепенно смягчается.\n\n- В основном, сюда спускаются те, кто, ищут укрытия или хотят избежать проблем, но я чувствую, что твои намерения искренни.\n\nМы, бездомные, тоже не хотим, чтобы зло бродило по этим туннелям. Есть один человек, который, возможно, сможет тебе помочь.",
         options: {
-            "Уйти": "third_junction",
+            "Расспросить свидетеля": "good_end",
         }
     },
-    "homeless_walk_bad": {
+    "homeless_walk": {
         location: "bg_homeless",
-        message: "*здесь будет диалог*",
+        message: "Стараясь не привлекать к себе еще большего внимания, вы молча последовали вперед, как вдруг, будто каменной стеной, перед вами возник суровый пожилой мужчина. Вы приготовились припугнуть его удостоверением, но он успевает оборвать вас на полуслове.\n\n- Слышь, малец, плевать я хотел на твою «корочку», это наша территория. Лучше вали, откуда пришел!",
         options: {
-            "Уйти": "third_junction",
+            "Пригрозить ломиком": "third_junction",
         }
     },
-    "homeless_talk_good": {
+    "homeless_walk_end": {
         location: "bg_homeless",
-        message: "*здесь будет диалог*",
+        message: "Ты решаешь пригрозить бездомным ломиком, рявкнув:\n\n- Отойдите! - говоришь ты, но их взгляды становятся яростными, и они молниеносно набрасываются на тебя толпой.\n\nЧисловое преимущество даёт о себе знать, и ты быстро оказываешься на полу под их ударами. Вскоре твой взгляд затуманивается, и ты теряешь сознание.\n\nТак заканчивается жизнь великого детектива, которого погубила агрессия и необдуманные действия.",
         options: {
-            "Уйти": "third_junction",
+            "Ты проиграл": "game_end",
         }
     },
-    "homeless_walk_good": {
-        location: "bg_homeless",
-        message: "*здесь будет диалог*",
-        options: {
-            "Уйти": "third_junction",
-        }
-    },
-
-
     "bats": {
         location: "bg_bats",
         message: "Свет фонаря двигается по стенам, и ты видишь, что что-то шевелится. Поднимаешь фонарь выше и обнаруживаешь кучу летучих мышей на потолке. Испугавшись света они взлетают с громким шумом.\n\nТы отпрыгиваешь назад, сердце бешено колотится, но мыши пролетают мимо, касаясь тебя крыльями. Очень скоро они исчезают в темноте, и ты остаешься один в тупике. Дальше пути нет.",
@@ -414,31 +417,74 @@ export const dialogs: Dialogs = {
         message: "Ты движешься глубже и замечаешь, что туннель впереди расширяется. Тут ты видишь удивительную сцену: камера напоминает заброшенную библиотеку с потрепанными книжными полками и старинными свитками. Но самое поразительное - две фигуры, занятые разговором у одной из полок. Похоже, что это подростки забравшиеся в сырой грот в лесу только для того чтобы выразить всё что у них на душе.",
         options: {
             "Подождать и послушать": "harry_listen",
-            "Идти дальше": "good_end",
+            "Вернуться на развилку": "third_junction",
         }
     },
     "harry_listen": {
         location: "bg_harry",
         message: "Ты прячешься за угол и наблюдаешь. \n\nПодростки ведут беседу, которая кажется не только веселой, но и теплой.",
-        options: {},
+        options: {
+            "Уйти": "third_junction",
+        },
         guard: (location) => {
             waitTillMusicEnds(location, "nimbus_2000", "harry_listen", "harry_listen_end")
             return ""
-        }
-    },
-    "harry_listen_end": {
-        location: "",
-        message: "Ты открыл секретную концовку!",
-        options: {
-
-        }
+        },
     },
     "good_end": {
         location: "",
-        message: "Ты выиграл!",
+        message: "Ты нашёл подсказку!\n\n\n\nСледуй показаниям, чтобы продлжить историю.",
         options: {
+            "Послушать свидетеля": "witness_2",
+        },
+        guard: () => {
+            if (firstTime) {
+                firstTime = false
+                SoundManager.stopAll();
+                SoundManager.playSound("win");
 
-        }
+                const firebaseConfig = {
+                    apiKey: "AIzaSyD19hXl7T_hR22RKTbO0HRqzJLWB-dhnpw",
+                    authDomain: "small-games-dda7a.firebaseapp.com",
+                    projectId: "small-games-dda7a",
+                    storageBucket: "small-games-dda7a.appspot.com",
+                    messagingSenderId: "536294849994",
+                    appId: "1:536294849994:web:a7eaf666f68f46c537e333"
+                };
+
+                const app = initializeApp(firebaseConfig);
+
+                const db = getFirestore(app);
+                const currentGameOrder = 1
+
+                // Function to mark the current game as completed
+                async function markGameAsCompleted(db: Firestore) {
+                    try {
+                        // Reference to the games collection
+                        const gamesCol = collection(db, 'games');
+
+                        // Construct the query
+                        const q = query(gamesCol, where('sort_order', '==', currentGameOrder));
+
+                        // Execute the query
+                        const querySnapshot = await getDocs(q);
+
+                        // Loop through the documents (should only be one) and update it
+                        querySnapshot.forEach(docSnap => {
+                            const gameDoc = doc(db, 'games', docSnap.id);
+                            updateDoc(gameDoc, { is_completed: true });
+                        });
+
+                        console.log('Game marked as completed');
+                    } catch (error) {
+                        console.error('Error updating game data:', error);
+                    }
+                }
+
+                markGameAsCompleted(db)
+            }
+            return ""
+        },
     },
     "game_end": {
         location: "",
@@ -446,6 +492,11 @@ export const dialogs: Dialogs = {
         options: {
 
         }
+    },
+    "witness_2": {
+        location: "",
+        message: "",
+        options: {}
     }
 }
 
