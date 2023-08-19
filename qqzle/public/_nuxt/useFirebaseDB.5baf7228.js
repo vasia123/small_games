@@ -1,0 +1,1 @@
+import{a1 as a,K as c}from"./entry.0534d1ea.js";function l(){const s=r=>{const{$firestore:u}=c();return a(u,r)},e=s("gameResults"),o=s("gamesAndQuestions"),n=s("ongoingGames"),t=s("userAnswers");return{createCollection:s,gameResultsCol:e,gamesAndQuestionsCol:o,ongoingGamesCol:n,userAnswersCol:t}}export{l as u};
